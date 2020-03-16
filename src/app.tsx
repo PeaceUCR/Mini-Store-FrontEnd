@@ -26,13 +26,46 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/user/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: '#b7b7b7',
+      selectedColor: '#AB956D',
+      borderStyle: 'white',
+      backgroundColor: '#f5f5f5',
+      list: [
+        {
+          pagePath: 'pages/index/index',
+          iconPath: 'static/home.png',
+          selectedIconPath: 'static/home-highlight.png',
+          text: '主页'
+        },
+        {
+          pagePath: 'pages/user/index',
+          iconPath: 'static/category.png',
+          selectedIconPath: 'static/category-highlight.png',
+          text: '分类'
+        },
+        {
+          pagePath: 'pages/user/index',
+          iconPath: 'static/cart.png',
+          selectedIconPath: 'static/cart-highlight.png',
+          text: '购物车'
+        },
+        {
+          pagePath: 'pages/user/index',
+          iconPath: 'static/user.png',
+          selectedIconPath: 'static/user-highlight.png',
+          text: '我的'
+        }
+      ]
     }
   }
 

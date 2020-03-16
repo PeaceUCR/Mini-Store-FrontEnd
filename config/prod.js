@@ -3,6 +3,7 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
+    API_HOST: '"http://localhost:8080"'
   },
   mini: {},
   h5: {

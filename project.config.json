@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "mini-store-mp",
   "description": "mini-store mini program",
-  "appid": "touristappid",
+  "appid": "wxda1f6a54b87f0ad8",
   "setting": {
     "urlCheck": true,
     "es6": false,

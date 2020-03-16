@@ -1,12 +1,21 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import { connect, bindActionCreators } from '@tarojs/redux'
+
+import { AtSearchBar } from 'taro-ui'
+import {get} from 'lodash';
+
+
+import HomeSlider from '../../components/HomeSlider'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
 
-import './index.scss'
 
+import './index.scss'
+import AuthorizationModal from "../../components/AuthorizationModal";
+import { setToken } from '../../actions/token'
+import getStorageSync = Taro.getStorageSync;
 // #region 书写注意
 //
 // 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
@@ -18,40 +27,35 @@ import './index.scss'
 // #endregion
 
 type PageStateProps = {
-  counter: {
-    num: number
-  }
+  token: string
 }
 
 type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
+  setToken: (string) => any
 }
 
 type PageOwnProps = {}
 
-type PageState = {}
+type PageState = {
+  searchValue: string
+  currentTab: number
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
 interface Index {
-  props: IProps;
+  props: IProps
 }
 
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
+const mapStateToProps = (state) => ({
+  token: get(state, 'token'),
+});
+const mapDispatchToProps = (dispatch) => ({
+  setToken (data) {
+    dispatch(setToken(data));
   }
-}))
+});
+@connect(mapStateToProps, mapDispatchToProps)
 class Index extends Component {
 
     /**
@@ -65,24 +69,63 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  state = {
+      searchValue: '',
+      currentTab: 0
+  }
+
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
 
   componentWillUnmount () { }
 
-  componentDidShow () { }
+  componentDidShow () {
+    this.props.setToken(getStorageSync('token'));
+  }
 
   componentDidHide () { }
 
+  onSearchValueChange = (value) => {
+    this.setState({
+      searchValue: value
+    })
+  }
+
+  onActionClick = () => {
+    console.log('开始搜索');
+  }
+  handleClick = (value) => {
+    this.setState({
+      currentTab: value
+    })
+  }
+// <AtTabBar
+// fixed
+// tabList={[
+//   { title: '待办事项', text: 8 },
+//   { title: '拍照' },
+//   { title: '通讯录', dot: true }
+// ]}
+// onClick={this.handleClick}
+// current={this.state.currentTab}
+// />
+// <Button className='add_btn' onClick={this.props.add}>+</Button>
+// <Button className='dec_btn' onClick={this.props.dec}>-</Button>
+// <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
+// <View><Text>{this.props.counter.num}</Text></View>
+// <View><Text>Hello, World</Text></View>
   render () {
     return (
       <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World</Text></View>
+        <HomeSlider />
+        <AtSearchBar
+          actionName='搜一下'
+          value={this.state.searchValue}
+          onChange={this.onSearchValueChange}
+          onActionClick={this.onActionClick.bind(this)}
+        />
+        <AuthorizationModal isOpened={this.props.token ? false : true} />
       </View>
     )
   }
@@ -95,4 +138,5 @@ class Index extends Component {
 //
 // #endregion
 
-export default Index as ComponentClass<PageOwnProps, PageState>
+export default Index
+// as ComponentClass<PageOwnProps, PageState>
