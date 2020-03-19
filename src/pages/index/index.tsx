@@ -116,6 +116,8 @@ class Index extends Component {
 // <View><Text>{this.props.counter.num}</Text></View>
 // <View><Text>Hello, World</Text></View>
   render () {
+    const {token} = this.props;
+    const showAuthorizationModal = token ? false : true;
     return (
       <View className='index'>
         <HomeSlider />
@@ -125,7 +127,7 @@ class Index extends Component {
           onChange={this.onSearchValueChange}
           onActionClick={this.onActionClick.bind(this)}
         />
-        <AuthorizationModal isOpened={this.props.token ? false : true} />
+        {showAuthorizationModal  && <AuthorizationModal />}
       </View>
     )
   }

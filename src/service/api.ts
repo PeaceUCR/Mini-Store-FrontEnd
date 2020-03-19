@@ -1,6 +1,5 @@
 import Taro, { setStorageSync, getStorageSync, login } from '@tarojs/taro';
 import { get, put, post, handleOtherError } from './httpManager';
-import { GetUserInfo } from '../utils/user';
 
 export interface LoginResponse {
   hasUnion: boolean
@@ -19,7 +18,7 @@ interface UserInfoRequest {
 
 export async function wechatLogin() {
   if(getStorageSync('token')) {
-    return ;
+    return getStorageSync('token');
   }
   const res = await login();
   const userInfo = await Taro.getUserInfo();
@@ -27,6 +26,7 @@ export async function wechatLogin() {
   const { signature, rawData, encryptedData, iv } = userInfo;
   const token = await post('/user/wechatLogin',{code, signature, rawData, encryptedData, iv});
   setStorageSync('token', token);
+  return token;
 }
 
 

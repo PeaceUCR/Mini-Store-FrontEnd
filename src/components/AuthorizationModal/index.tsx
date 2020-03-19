@@ -1,22 +1,27 @@
-import Taro, { Component, useState, useEffect } from '@tarojs/taro'
+import Taro, { Component, useState, useEffect} from '@tarojs/taro'
 import {Button} from "@tarojs/components";
 import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 import './index.scss';
 import {wechatLogin} from '../../service/api';
+import {setToken} from "../../actions/token";
+import { useDispatch } from '@tarojs/redux'
 
-const AuthorizationModal= (isOpened) => {
-  const [visibility, setVisibility] = useState(isOpened);
+const AuthorizationModal= () => {
+
+  // const [visibility, setVisibility] = useState(isOpened);
+  const dispatch = useDispatch()
 
   const handleConfirm = (authResponse) => {
     if(authResponse.currentTarget.errMsg !== 'getUserInfo:ok') {
       return;
     }
-    wechatLogin().then(() => {
-      setVisibility(false)
+    wechatLogin().then((token) => {
+      console.log(token);
+      dispatch(setToken(token));
     });
   }
   return (
-    <AtModal isOpened={visibility}>
+    <AtModal isOpened>
       <AtModalHeader>欢迎━(*｀∀´*)ノ亻!</AtModalHeader>
       <AtModalContent>
         第一次进入应用，请授权登陆~
