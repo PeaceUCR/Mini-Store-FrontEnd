@@ -1,0 +1,31 @@
+.home-page-product-item{
+  position: relative;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background: #f5f6f5;
+  font-size: 28px;
+  text-align: center;
+  padding-bottom: 20px;
+  .line {
+    margin-top: 10px;
+  }
+  .image {
+    margin: 0 auto;
+    width: 360px;
+    height: 360px;
+  }
+
+  .price {
+    font-size: 36px;
+    font-weight: bold;
+    color: rgb(255, 68, 0);
+  }
+  .sales {
+    font-size: 24px;
+    color: grey;
+  }
+}

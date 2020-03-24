@@ -8,14 +8,14 @@ import {get} from 'lodash';
 
 
 import HomeSlider from '../../components/HomeSlider'
-
-import { add, minus, asyncAdd } from '../../actions/counter'
-
+import HomePageProductItem from '../../components/HomePageProductItem'
 
 import './index.scss'
 import AuthorizationModal from "../../components/AuthorizationModal";
 import { setToken } from '../../actions/token'
+import {setHomePageProducts} from '../../actions/homePageProducts'
 import getStorageSync = Taro.getStorageSync;
+import { getHomePageProducts } from '../../service/api'
 // #region 书写注意
 //
 // 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
@@ -28,10 +28,12 @@ import getStorageSync = Taro.getStorageSync;
 
 type PageStateProps = {
   token: string
+  homePageProducts: any
 }
 
 type PageDispatchProps = {
   setToken: (string) => any
+  setHomePageProducts: () => any
 }
 
 type PageOwnProps = {}
@@ -49,10 +51,14 @@ interface Index {
 
 const mapStateToProps = (state) => ({
   token: get(state, 'token'),
+  homePageProducts: get(state, 'homePageProducts')
 });
 const mapDispatchToProps = (dispatch) => ({
   setToken (data) {
     dispatch(setToken(data));
+  },
+  setHomePageProducts (data) {
+    dispatch(setHomePageProducts(data));
   }
 });
 @connect(mapStateToProps, mapDispatchToProps)
@@ -81,7 +87,10 @@ class Index extends Component {
   componentWillUnmount () { }
 
   componentDidShow () {
-    this.props.setToken(getStorageSync('token'));
+    this.props.setToken(getStorageSync('token'))
+    getHomePageProducts().then((products) => {
+      this.props.setHomePageProducts(products);
+    });
   }
 
   componentDidHide () { }
@@ -94,11 +103,6 @@ class Index extends Component {
 
   onActionClick = () => {
     console.log('开始搜索');
-  }
-  handleClick = (value) => {
-    this.setState({
-      currentTab: value
-    })
   }
 // <AtTabBar
 // fixed
@@ -116,7 +120,9 @@ class Index extends Component {
 // <View><Text>{this.props.counter.num}</Text></View>
 // <View><Text>Hello, World</Text></View>
   render () {
-    const {token} = this.props;
+    const {token, homePageProducts} = this.props;
+    const column1 = homePageProducts.slice(0, homePageProducts.length/2);
+    const column2 = homePageProducts.slice(homePageProducts.length/2, homePageProducts.length);
     const showAuthorizationModal = token ? false : true;
     return (
       <View className='index'>
@@ -128,6 +134,18 @@ class Index extends Component {
           onActionClick={this.onActionClick.bind(this)}
         />
         {showAuthorizationModal  && <AuthorizationModal />}
+        <View className='products-container'>
+          <View>
+            {column1.map((product) => {
+              return (<HomePageProductItem product={product} />)
+            })}
+          </View>
+          <View>
+            {column2.map((product) => {
+              return (<HomePageProductItem product={product} />)
+            })}
+          </View>
+        </View>
       </View>
     )
   }

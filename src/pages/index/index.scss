@@ -1,6 +1,12 @@
 .index {
   flex-direction: column;
   width: 100%;
+  .products-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
 }
 
 @import "~taro-ui/dist/style/components/search-bar.scss";

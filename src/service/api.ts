@@ -16,6 +16,8 @@ interface UserInfoRequest {
   iv: string
 }
 
+
+
 export async function wechatLogin() {
   if(getStorageSync('token')) {
     return getStorageSync('token');
@@ -27,6 +29,12 @@ export async function wechatLogin() {
   const token = await post('/user/wechatLogin',{code, signature, rawData, encryptedData, iv});
   setStorageSync('token', token);
   return token;
+}
+
+export async function getHomePageProducts() {
+  const products = await get('/items?limit=6', {});
+  console.log(products);
+  return products
 }
 
 
