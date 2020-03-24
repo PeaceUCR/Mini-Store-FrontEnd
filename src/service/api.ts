@@ -32,9 +32,7 @@ export async function wechatLogin() {
 }
 
 export async function getHomePageProducts() {
-  const products = await get('/items?limit=6', {});
-  console.log(products);
-  return products
+  return await get('/items?limit=6', {});
 }
 
 

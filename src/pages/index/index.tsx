@@ -57,8 +57,8 @@ const mapDispatchToProps = (dispatch) => ({
   setToken (data) {
     dispatch(setToken(data));
   },
-  setHomePageProducts (data) {
-    dispatch(setHomePageProducts(data));
+  setHomePageProducts () {
+    dispatch(setHomePageProducts());
   }
 });
 @connect(mapStateToProps, mapDispatchToProps)
@@ -88,9 +88,7 @@ class Index extends Component {
 
   componentDidShow () {
     this.props.setToken(getStorageSync('token'))
-    getHomePageProducts().then((products) => {
-      this.props.setHomePageProducts(products);
-    });
+    this.props.setHomePageProducts();
   }
 
   componentDidHide () { }
