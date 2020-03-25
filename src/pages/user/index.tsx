@@ -3,8 +3,15 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
+import {get} from 'lodash';
+
+import { AtAvatar } from 'taro-ui'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
+import {setToken} from '../../actions/token';
+import { setUser } from '../../actions/user';
+
+import './index.scss'
 
 
 
@@ -20,15 +27,11 @@ import { add, minus, asyncAdd } from '../../actions/counter'
 // #endregion
 
 type PageStateProps = {
-  counter: {
-    num: number
-  }
+  user: any
 }
 
 type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
+  setUser: () => any
 }
 
 type PageOwnProps = {}
@@ -40,12 +43,20 @@ type PageState = {
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
-interface Index {
+interface UserPage {
   props: IProps
 }
 
-
-class User extends Component {
+const mapStateToProps = (state) => ({
+  user: get(state, 'user')
+});
+const mapDispatchToProps = (dispatch) => ({
+  setUser () {
+    dispatch(setUser());
+  }
+});
+@connect(mapStateToProps, mapDispatchToProps)
+class UserPage extends Component {
 
     /**
    * 指定config的类型声明为: Taro.Config
@@ -55,7 +66,7 @@ class User extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
     config: Config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '我的',
   }
 
   state = {
@@ -69,14 +80,27 @@ class User extends Component {
 
   componentWillUnmount () { }
 
-  componentDidShow () { }
+  componentDidShow () {
+      this.props.setUser();
+  }
 
   componentDidHide () { }
 
   render () {
+    const {user} = this.props
     return (
       <View className='index'>
-        Hello
+        {user && <View>
+          <View className='user-info'>
+            <View>
+              <AtAvatar circle size='large' text={user.userName} image={user.userAvatarUrl}></AtAvatar>
+              <Text>{user.userName}</Text>
+              <Text>{user.phone}</Text>
+            </View>
+          </View>
+          <Button className='my-orders'>我的订单</Button>
+          <Text className='about-us'>关于我们</Text>
+        </View>}
       </View>
     )
   }
@@ -89,4 +113,5 @@ class User extends Component {
 //
 // #endregion
 
-export default User as ComponentClass<PageOwnProps, PageState>
+export default UserPage
+// as ComponentClass<PageOwnProps, PageState>

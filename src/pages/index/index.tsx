@@ -135,12 +135,16 @@ class Index extends Component {
         <View className='products-container'>
           <View>
             {column1.map((product) => {
-              return (<HomePageProductItem product={product} />)
+              return (<View key={'home-page-prodcut-'+product.itemId}>
+                <HomePageProductItem product={product} />
+              </View>)
             })}
           </View>
           <View>
             {column2.map((product) => {
-              return (<HomePageProductItem product={product} />)
+              return (<View key={'home-page-prodcut-'+product.itemId}>
+                <HomePageProductItem product={product} />
+              </View>)
             })}
           </View>
         </View>

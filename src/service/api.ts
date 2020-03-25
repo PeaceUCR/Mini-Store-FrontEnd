@@ -35,4 +35,6 @@ export async function getHomePageProducts() {
   return await get('/items?limit=6', {});
 }
 
-
+export async function getCurrentUser() {
+  return await get('/user/current', {});
+}

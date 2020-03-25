@@ -10,6 +10,9 @@ import './index.scss';
 // const itemPriceUnit = '500克'
 
 const HomePageProductItem = (props) => {
+  if (!props.product) {
+    return ;
+  }
   const {itemImgUrl, itemName, itemSales, itemPrice, itemPriceUnit} = props.product;
 
   return (<View className='home-page-product-item'>
