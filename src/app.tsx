@@ -26,6 +26,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      'pages/category/index',
       'pages/index/index',
       'pages/user/index'
     ],
@@ -47,7 +48,7 @@ class App extends Component {
           text: '主页'
         },
         {
-          pagePath: 'pages/user/index',
+          pagePath: 'pages/category/index',
           iconPath: 'static/category.png',
           selectedIconPath: 'static/category-highlight.png',
           text: '分类'

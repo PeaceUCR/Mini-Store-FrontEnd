@@ -1,5 +1,14 @@
 @import "~taro-ui/dist/style/components/modal.scss";
 
+
+@import "~taro-ui/dist/style/components/search-bar.scss";
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+
+//INPUT
+@import "~taro-ui/dist/style/components/input.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+
 .at-modal__content{
   min-height: 80px;
   text-align: center;

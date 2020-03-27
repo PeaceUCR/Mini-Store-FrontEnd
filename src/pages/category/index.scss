@@ -1,0 +1,33 @@
+.category-page{
+  width: 100%;
+  min-height: 100vh;
+  .category-column {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    width: 140px;
+    min-height: calc(100vh - 100px);
+    z-index: 1;
+    background: #AB956D;
+    .category {
+      font-size: 32px;
+      text-align: center;
+      padding: 40px 20px;
+      background: #f9f9f9;
+      color: gray;
+      transition: all ease 0.5s;
+      left: 0;
+      &.active {
+        color: black;
+        background: white;
+        position: relative;
+        left: 20px;
+      }
+    }
+  }
+
+  .category-content {
+    width: 100%;
+    padding-left: 140px;
+  }
+}

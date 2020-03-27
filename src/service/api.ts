@@ -38,3 +38,22 @@ export async function getHomePageProducts() {
 export async function getCurrentUser() {
   return await get('/user/current', {});
 }
+
+export async function geCategoryPageProducts(category, name) {
+  category = category === '全部' ? '' : category
+  let url;
+  if (category) {
+    if(name) {
+      url = `/items?category=${category}&itemName=${name}`
+    } else {
+      url = `/items?category=${category}`
+    }
+  } else {
+    if(name) {
+      url = `/items?itemName=${name}`
+    } else {
+      url = `/items`
+    }
+  }
+  return await get(url, {});
+}
