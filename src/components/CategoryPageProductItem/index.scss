@@ -38,6 +38,9 @@
     bottom: 75px;
     right: 160px;
     display: flex;
+    &.right-0 {
+      right: 0;
+    }
     .isHidden {
       visibility: hidden;
     }

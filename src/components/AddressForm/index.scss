@@ -1,0 +1,18 @@
+@import "~taro-ui/dist/style/components/form.scss";
+
+.address-form {
+  position: fixed;
+  top: 6%;
+  left: 6%;
+  width: 88%;
+  box-sizing: border-box;
+  background: white;
+  z-index: 2;
+  padding: 40px 30px;
+  box-shadow: 0px 0px 999px 999px rgba(0,0,0,0.7);
+  .cta {
+    display: inline-block;
+    width: 50%;
+    margin: 10px 0;
+  }
+}

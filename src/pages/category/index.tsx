@@ -1,15 +1,16 @@
-import Taro, {Component, Config} from '@tarojs/taro'
+import Taro, {Component, Config, setStorageSync, getStorageSync} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import {connect} from '@tarojs/redux'
-import classnames from 'classnames';
+import classnames from 'classnames'
 import {AtSearchBar} from "taro-ui";
 
-import {get} from 'lodash';
+import {get, isEmpty} from 'lodash';
 import {categoryPageProducts} from '../../actions/categoryPageProducts';
 import {geCategoryPageProducts} from '../../service/api';
 import CategoryPageProductItem from '../../components/CategoryPageProductItem'
-
+import CartSum from '../../components/CartSum'
 import './index.scss'
+import {SET_PRODUCT_QUANTITY} from "../../actions/type";
 
 
 // #region 书写注意
@@ -23,11 +24,13 @@ import './index.scss'
 // #endregion
 
 type PageStateProps = {
-  user: any
+  categoryPageProducts: any
+  cart: any
 }
 
 type PageDispatchProps = {
   setCategoryPageProducts: () => any
+  setProductQuantity: (any) => any
 }
 
 type PageOwnProps = {}
@@ -46,11 +49,18 @@ interface CategoryPage {
 const categories = ['全部', '水果', '蔬菜', '零食'];
 
 const mapStateToProps = (state) => ({
-  categoryPageProducts: get(state, 'categoryPageProducts')
+  categoryPageProducts: get(state, 'categoryPageProducts'),
+  cart: get(state, 'cart')
 });
 const mapDispatchToProps = (dispatch) => ({
   setCategoryPageProducts(data) {
     dispatch(categoryPageProducts(data));
+  },
+  setProductQuantity(data) {
+    dispatch({
+      type: SET_PRODUCT_QUANTITY,
+      data: data
+    })
   }
 });
 
@@ -83,10 +93,18 @@ class CategoryPage extends Component {
   componentDidShow() {
     geCategoryPageProducts().then((products) => {
       this.props.setCategoryPageProducts(products);
-    })
+    });
+
+    if(isEmpty(this.props.cart)) {
+      const savedCart = getStorageSync('cart');
+      if(savedCart) {
+        this.props.setProductQuantity(savedCart);
+      }
+    }
   }
 
   componentDidHide() {
+    setStorageSync('cart', this.props.cart)
   }
 
   onSelectTab = (category) => {
@@ -129,11 +147,14 @@ class CategoryPage extends Component {
           })}
         </View>
         <View className='category-content'>
-          {categoryPageProducts.map((product) => {
-            return (<View>
+          {categoryPageProducts.map((product, index) => {
+            return (<View key={`category-${index}`}>
               <CategoryPageProductItem product={product}/>
             </View>)
           })}
+        </View>
+        <View className='footer'>
+          <CartSum cta='去结算' />
         </View>
       </View>
     )

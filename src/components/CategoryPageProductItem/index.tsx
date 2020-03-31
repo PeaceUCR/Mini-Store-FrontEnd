@@ -38,8 +38,12 @@ const CategoryPageProductItem = (props) => {
       data: cartProduct
     })
   };
+
+  const {isCart} = props;
+  const floatClass = classnames({'float-buttons': true, 'right-0': (isCart? true : false)});
+
   return (<View className='category-page-product-item'>
-    <Image className='image' src={itemImgUrl} mode='widthFix'/>
+    <Image className='image' src={itemImgUrl} mode='widthFix' />
     <View className='content'>
       <View>
         <Text className='name'>{itemName}</Text>
@@ -48,7 +52,7 @@ const CategoryPageProductItem = (props) => {
       <View className='line'>
         <Text className='price'>￥{(itemPrice / 100).toFixed(2)}</Text>
       </View>
-      <View className='float-buttons'>
+      <View className={floatClass}>
         <View className={buttonClass}>
           <Image className='button button-remove' src={buttonRemove} mode='widthFix' onClick={onQuantityRemove}/>
           <Input

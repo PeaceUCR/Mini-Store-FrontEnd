@@ -1,7 +1,7 @@
 import {UPDATE_PRODUCT_QUANTITY, SET_PRODUCT_QUANTITY} from "../actions/type";
 
 const INITIAL_STATE = {};
-// {productId: {product, quantity}}
+// {itemId: {product, quantity}}
 
 export default function cart (state = INITIAL_STATE, action) {
   switch (action.type) {

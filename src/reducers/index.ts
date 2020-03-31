@@ -5,6 +5,7 @@ import homePageProducts from './homePageProducts'
 import user from './user'
 import categoryPageProducts from './categoryPageProducts'
 import cart from './cart'
+import location from './location'
 
 export default combineReducers({
   counter,
@@ -12,5 +13,6 @@ export default combineReducers({
   homePageProducts,
   user,
   categoryPageProducts,
-  cart
+  cart,
+  location
 })
